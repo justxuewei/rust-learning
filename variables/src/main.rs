@@ -16,6 +16,8 @@ fn shadowing() {
     println!("The value of x is: {}", x);
 }
 
+// 隐藏（shadowing）可以改变变量的类型，本质上它新建了一个新变量。
+// 加入 mut 关键字的则相反，是在同一个内存地址上编辑内容，所以它的类型是无法改变的。
 fn data_type() {
     let spaces = "    ";
     println!("the spaces is: \"{}\"", spaces);
