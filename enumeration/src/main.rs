@@ -1,6 +1,7 @@
 fn main() {
     option_test();
     match_test();
+    if_let_test();
 }
 
 enum IpAddrKind {
@@ -53,4 +54,17 @@ fn match_test() {
     println!("=== match_test ===");
     println!("{}", value_in_cents(Coin::Dime));
     println!("{}", value_in_cents(Coin::Quarter(UsState::Alabama)));
+}
+
+fn if_let_test() {
+    println!("=== if_let_test ===");
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {}", max),
+        _ => {},
+    }
+    // if let 等价操作
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    }
 }
