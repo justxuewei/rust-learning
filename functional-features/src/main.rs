@@ -1,3 +1,5 @@
+use functional_features::closures;
+
 fn main() {
-    println!("Hello, world!");
+    closures::closure_ownership_test();
 }
