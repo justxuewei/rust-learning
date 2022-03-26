@@ -3,6 +3,8 @@ fn main() {
     clone_test();
     ownership_with_function();
     ownership_with_return_value();
+
+    lifetimes_test();
 }
 
 // s1 不可用，因为 s1 已经移动到 s2，因此 s1 已经失效了。
@@ -62,4 +64,18 @@ fn gives_ownership() -> String {
 // takes_and_gives_back 将传入字符串并返回该值
 fn takes_and_gives_back(some_string: String) -> String { // a_string 进入作用域
     some_string // 返回 a_string 并移出给调用的函数
+}
+
+fn take_right_number<'a,'b>(_: &'a i32, b: &'b i32) -> &'b i32 {
+    &10
+}
+
+fn lifetimes_test() {
+    println!("=== lifetimes_test ===");
+    let result;
+    {
+        let b = 10;
+        result = &b;
+    }
+    println!("{}", result)
 }
