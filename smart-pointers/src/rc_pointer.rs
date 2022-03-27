@@ -9,10 +9,13 @@ enum List {
 pub fn rc_pointer_test() {
     println!("=== rc_pointer_test ===");
 
-    let a = Rc::new(
-        Cons(5, Rc::new(
-            Cons(10, Rc::new(
-                Nil)))));
+    // 如果这里 a 是一种 Box<T> 类型的智能指针，但是所有权只能同时被一个变量所有
+    // 在下面 b 和 c 之中，a 的所有权被转移了两次，所以在这种情况下 b 不可用，c 可用
+    // 为了让 b 和 c 同时可用，所以需要使用 Rc<T>
+
+    // 比如一个 Rc<T> 离开了作用域，那么计数器就会 -1，如果计数器变为 0 那么内存就会
+    // 被回收，所以还是与作用域息息相关的。
+    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
     let b = Cons(3, Rc::clone(&a));
     let c = Cons(4, Rc::clone(&a));
 

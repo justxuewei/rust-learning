@@ -9,7 +9,10 @@ struct LimitTracker<'a, T: Messenger> {
 }
 
 impl<'a, T> LimitTracker<'a, T>
-    where T: Messenger {
+where
+    T: Messenger,
+{
+    #[allow(dead_code)]
     fn new(messenger: &T, max: usize) -> LimitTracker<T> {
         LimitTracker {
             messenger,
@@ -18,6 +21,7 @@ impl<'a, T> LimitTracker<'a, T>
         }
     }
 
+    #[allow(dead_code)]
     fn set_value(&mut self, value: usize) {
         self.value = value;
 
@@ -26,17 +30,19 @@ impl<'a, T> LimitTracker<'a, T>
         if percentage_of_max >= 1.0 {
             self.messenger.send("Error: You are over your quota!");
         } else if percentage_of_max >= 0.9 {
-            self.messenger.send("Urgent warning: You've used up over 90% of your quota!");
+            self.messenger
+                .send("Urgent warning: You've used up over 90% of your quota!");
         } else if percentage_of_max >= 0.75 {
-            self.messenger.send("Warning: You've used up over 75% of your quota!");
+            self.messenger
+                .send("Warning: You've used up over 75% of your quota!");
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use std::cell::RefCell;
     use super::*;
+    use std::cell::RefCell;
 
     struct MockMessenger {
         sent_messages: RefCell<Vec<String>>,
@@ -52,7 +58,8 @@ mod tests {
 
     impl Messenger for MockMessenger {
         fn send(&self, message: &str) {
-            // send 在 trait 的定义中是不可变的，但是在这里需要变化，需要必须要使用 RefCell<T>
+            // send 函数在 trait 的定义中 self 是不可变的，自然 self.sent_messages 也是不可变的
+            // 如果需要变化，则可以使用 RefCell<T>
             self.sent_messages.borrow_mut().push(String::from(message));
         }
     }
@@ -66,5 +73,4 @@ mod tests {
 
         assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
     }
-
 }

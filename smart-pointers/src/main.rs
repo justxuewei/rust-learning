@@ -1,4 +1,4 @@
-use smart_pointers::{box_pointer, drop_trait};
+use smart_pointers::{box_pointer, drop_trait, rc_ref_cell_pointer};
 use smart_pointers::rc_pointer;
 
 fn main() {
@@ -7,4 +7,5 @@ fn main() {
     drop_trait::drop_manually_test();
     rc_pointer::rc_pointer_test();
     rc_pointer::ref_count_test();
+    rc_ref_cell_pointer::rc_ref_cell_test();
 }
