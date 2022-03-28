@@ -24,5 +24,24 @@ pub fn rc_ref_cell_test() {
     println!("b after = {:?}", b);
     println!("c after = {:?}", c);
 
-    // TODO(justxuewei): 如何才能通过 b 拿到 value 的值？
+    // b 的所有权没有变化
+    match &b {
+        Cons(valueb, rc_a) => {
+            println!("b.value = {:?}", valueb);
+            match &**rc_a {
+                Cons(valuea, _) => {
+                    println!("a.value = {:?}", valuea);
+                    *valuea.borrow_mut() += 10;
+                }
+                _ => {
+                    panic!("a should have next list");
+                }
+            }
+        }
+        _ => {
+            panic!("b should have next list");
+        }
+    }
+
+    println!("b = {:?}", b)
 }

@@ -30,6 +30,7 @@ pub fn cons_list_test() {
 struct MyBox<T>(T);
 
 impl<T> MyBox<T> {
+    #[allow(dead_code)]
     pub fn new(x: T) -> MyBox<T> {
         MyBox(x)
     }
